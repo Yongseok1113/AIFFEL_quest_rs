@@ -3,9 +3,14 @@ name = "aiffel-quest-rs"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.9.25"
+requires-python = ">=3.11.15"
 dependencies = [
-    "torch==2.0.1",
-    "torchaudio==2.0.2",
-    "torchvision==0.15.2",
+    "ipykernel>=7.2.0",
+    "numpy==1.26.4",
+    "opencv-python>=4.11.0.86",
+    "pixellib>=0.7.1",
+    "torch==2.7.1",
+    "torchaudio==2.7.1",
+    "torchvision==0.22.1",
+    "transformers>=5.9.0",
 ]
