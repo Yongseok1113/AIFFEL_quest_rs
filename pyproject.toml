@@ -9,9 +9,11 @@ dependencies = [
     "ipykernel>=7.2.0",
     "numpy==1.26.4",
     "opencv-python>=4.11.0.86",
+    "pillow>=12.2.0",
     "pixellib>=0.7.1",
     "torch==2.7.1",
     "torchaudio==2.7.1",
+    "torchinfo>=1.8.0",
     "torchvision==0.22.1",
     "transformers>=5.9.0",
 ]
