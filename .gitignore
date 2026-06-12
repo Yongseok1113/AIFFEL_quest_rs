@@ -2,6 +2,4 @@
 my_practice
 .venv
 .local
-work/data
-work/data_augmentation
-work/word_embedding
+work/*

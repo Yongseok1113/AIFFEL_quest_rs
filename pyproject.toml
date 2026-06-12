@@ -9,6 +9,7 @@ dependencies = [
     "gensim==4.3.2",
     "ipykernel>=7.2.0",
     "konlpy>=0.6.0",
+    "mecab-python3>=1.0.12",
     "nltk==3.6.7",
     "numpy==1.26.4",
     "opencv-python>=4.11.0.86",
