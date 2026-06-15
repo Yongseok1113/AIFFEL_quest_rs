@@ -3,3 +3,6 @@ my_practice
 .venv
 .local
 work/*
+*/*/*.temp
+*/*/*.model
+*/*/*.vocab
