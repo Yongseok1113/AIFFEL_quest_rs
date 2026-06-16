@@ -6,3 +6,5 @@ work/*
 */*/*.temp
 */*/*.model
 */*/*.vocab
+*/*/*.csv
+*/*/*.txt
