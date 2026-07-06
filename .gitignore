@@ -1,4 +1,5 @@
-*ipynb_checkpoints
+.ipynb_checkpoints
+*/**/.ipynb_checkpoints
 my_practice
 .venv
 .local
@@ -8,3 +9,6 @@ work/*
 */*/*.vocab
 */*/*.csv
 */*/*.txt
+*/**/*.pth
+*/**/__pycache__
+*/**/inference_results/*/labeled_eval
