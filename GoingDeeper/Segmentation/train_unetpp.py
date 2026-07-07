@@ -27,7 +27,8 @@ GRAD_ACCUM_STEPS = 4
 EFFECTIVE_BATCH_SIZE = BATCH_SIZE * GRAD_ACCUM_STEPS  # = 16
 
 # Mixed Precision(AMP) 사용 시 activation 메모리와 연산량을 크게 줄일 수 있음 (CUDA에서만 적용)
-USE_AMP = DEVICE.type == 'cuda'
+# USE_AMP = DEVICE.type == 'cuda'
+USE_AMP = False  # 학습 불안정해져서 허용하지 않음
 
 SAVE_DIR = './checkpoints'
 SAVE_PATH_BEST = os.path.join(SAVE_DIR, 'unetpp_best.pth')
@@ -104,6 +105,9 @@ def train_one_epoch(model, loader, criterion, optimizer, device, scaler,
 
         is_last_batch = (step + 1) == num_batches
         if (step + 1) % accum_steps == 0 or is_last_batch:
+            # gradient explosion으로 인한 학습 붕괴 방지
+            scaler.unscale_(optimizer)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             scaler.step(optimizer)
             scaler.update()
             optimizer.zero_grad()

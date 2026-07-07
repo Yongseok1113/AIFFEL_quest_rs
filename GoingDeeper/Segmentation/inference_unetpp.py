@@ -11,7 +11,6 @@ from inference_utils import get_output, calculate_iou_score
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 CHECKPOINT_PATH = './checkpoints/unetpp_best.pth'
 TOP_K = 3
-DEEP_SUPERVISION = False  # 학습 시 사용한 설정과 반드시 동일해야 함
 
 RESULT_DIR = './inference_results/unetpp'
 LABELED_EVAL_DIR = os.path.join(RESULT_DIR, 'labeled_eval')      # mIoU 계산용 (라벨 있는 holdout)
@@ -23,18 +22,26 @@ for d in (LABELED_EVAL_DIR, TOP_K_DIR, UNLABELED_DIR):
 
 
 def load_model(checkpoint_path):
+    ckpt = torch.load(checkpoint_path, map_location=DEVICE)
+    state_dict = ckpt['model_state_dict']
+
+    # 학습 스크립트의 DEEP_SUPERVISION 설정을 깜빡 잊고 다르게 둬도 안전하도록,
+    # 저장된 state_dict의 키를 보고 deep_supervision 여부를 자동으로 판단한다.
+    # (deep_supervision=True면 'finals.0.weight' 등, False면 'final.weight'가 저장되어 있음)
+    deep_supervision = any(k.startswith('finals.') for k in state_dict.keys())
+
     model = UNetPlusPlus(
         input_channels=3,
         output_channels=1,
         depth=4,
         base_filters=64,
-        deep_supervision=DEEP_SUPERVISION,
+        deep_supervision=deep_supervision,
     ).to(DEVICE)
-    ckpt = torch.load(checkpoint_path, map_location=DEVICE)
-    model.load_state_dict(ckpt['model_state_dict'])
+    model.load_state_dict(state_dict)
     model.eval()
     print(f"[UNet++] Loaded checkpoint: {checkpoint_path} "
-          f"(epoch={ckpt.get('epoch')}, val_dice={ckpt.get('val_dice'):.4f})")
+          f"(epoch={ckpt.get('epoch')}, val_dice={ckpt.get('val_dice'):.4f}, "
+          f"deep_supervision={deep_supervision})")
     return model
 
 

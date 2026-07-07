@@ -12,7 +12,7 @@ from albumentations import Compose, HorizontalFlip, RandomSizedCrop, Resize
 # 데이터 경로
 # ----------------------------------------------------------------------------
 data_dir = os.path.join(os.getenv("HOME"), "work/semantic_segmentation/data/training")
-
+test_infer_dir = os.path.join(os.getenv("HOME"), "work/semantic_segmentation/data/testing")
 
 # ----------------------------------------------------------------------------
 # Augmentation
@@ -142,4 +142,4 @@ test_infer_dir = os.path.join(os.getenv("HOME"), "work/semantic_segmentation/dat
 
 def get_inference_image_paths():
     """라벨이 없는 실제 testing set(images_2 폴더)의 이미지 경로 리스트를 반환합니다."""
-    return sorted(glob(os.path.join(test_infer_dir, "images_2", "*.png")))
+    return sorted(glob(os.path.join(test_infer_dir, "image_2", "*.png")))

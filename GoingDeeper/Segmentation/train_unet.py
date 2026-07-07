@@ -65,6 +65,9 @@ def train_one_epoch(model, loader, criterion, optimizer, device, scaler, use_amp
         loss = criterion(outputs_fp32, masks)
 
         scaler.scale(loss).backward()
+        # gradient explosion으로 인한 학습 붕괴 방지
+        scaler.unscale_(optimizer)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         scaler.step(optimizer)
         scaler.update()
 

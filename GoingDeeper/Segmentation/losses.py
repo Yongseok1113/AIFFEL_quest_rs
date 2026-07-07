@@ -58,6 +58,9 @@ class BCEDiceLoss(nn.Module):
         self.dice = SoftDiceLoss()
 
     def forward(self, preds, targets):
+        # sigmoid 출력이 fp16 연산 등으로 정확히 0.0/1.0에 도달하면
+        # BCELoss에서 log(0) -> inf/-inf가 발생해 학습이 붕괴할 수 있으므로 clamp로 방지
+        preds = torch.clamp(preds, min=1e-7, max=1 - 1e-7)
         bce_loss = self.bce(preds, targets)
         dice_loss = self.dice(preds, targets)
         return self.bce_weight * bce_loss + (1 - self.bce_weight) * dice_loss
