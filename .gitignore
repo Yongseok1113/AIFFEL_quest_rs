@@ -13,3 +13,4 @@ work/*
 */**/__pycache__
 */**/inference_results/*/labeled_eval
 */**/inference_results/*/unlabeled_testing
+*/**/*.memmap
