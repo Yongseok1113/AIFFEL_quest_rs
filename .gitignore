@@ -14,3 +14,7 @@ work/*
 */**/inference_results/*/labeled_eval
 */**/inference_results/*/unlabeled_testing
 */**/*.memmap
+*/**/diffusers_git
+*/**/KoChatGPT
+*/**/model.safetensors
+*/**/GD09_Stable_Diffusion_ipynb.ipynb
